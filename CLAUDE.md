@@ -28,3 +28,12 @@ uv run python manage.py makemigrations --check --dry-run   # migrações em dia
 - Testes primeiro: cada critério de aceite da spec vira um teste em `apps/<nome>/tests/`.
   Use as factories de `apps/core/tests/factories.py`; nunca dados reais.
 - Antes de abrir PR: testes, cobertura, ruff e checagem de migrações passando.
+
+## Permissões (spec 001)
+- Toda view exige login (`LoginRequiredMiddleware`). Views públicas usam `@login_not_required`.
+- Views de área declaram a ação: `ActionRequiredMixin` com `required_action = Action.X` (CBV) ou
+  `@action_required(Action.X)` (FBV). Ações e perfis ficam só em `apps/core/permissions.py`.
+- Ação nova = constante em `Action`, entrada em `ROLE_ACTIONS`, item em `navigation.SIDEBAR` e
+  linha em `SPEC_MATRIX` de `test_permissions.py` (o teste perfil × ação cobre a URL sozinho).
+- Em testes, use `client.force_login(user, backend=MODEL_BACKEND)` e `user_with_roles(...)` das
+  factories (o primeiro backend é o do django-axes).

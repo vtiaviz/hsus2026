@@ -8,8 +8,40 @@
   <link rel="stylesheet" href="{% static 'css/hsus.css' %}">
 </head>
 <body>
-  <main class="container py-4">
-    {% block content %}{% endblock %}
-  </main>
+  {% if user.is_authenticated %}
+    <nav class="navbar navbar-dark bg-primary px-3">
+      <a class="navbar-brand" href="{% url 'core:home' %}">H-SUS</a>
+      <div class="d-flex align-items-center gap-3 text-white">
+        <span>{{ user }}</span>
+        <form method="post" action="{% url 'logout' %}" class="m-0">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-light">Sair</button>
+        </form>
+      </div>
+    </nav>
+    <div class="d-flex">
+      <aside class="hsus-sidebar border-end p-3" aria-label="Menu">
+        {% for section in sidebar_sections %}
+          <h2 class="h6 text-uppercase text-secondary mt-3">{{ section.label }}</h2>
+          <ul class="nav flex-column">
+            {% for item in section.items %}
+              <li class="nav-item"><a class="nav-link px-0" href="{% url item.url_name %}">{{ item.label }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+        {% if can_admin_panel %}
+          <h2 class="h6 text-uppercase text-secondary mt-3">Gestão</h2>
+          <a class="nav-link px-0" href="{% url 'admin:index' %}">Administração</a>
+        {% endif %}
+      </aside>
+      <main class="flex-grow-1 p-4">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  {% else %}
+    <main class="container py-5">
+      {% block public_content %}{% endblock %}
+    </main>
+  {% endif %}
 </body>
 </html>

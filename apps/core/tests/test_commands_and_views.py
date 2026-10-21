@@ -7,6 +7,8 @@ from django.urls import reverse
 from apps.core.models import Cid10
 from config.settings.base import BASE_DIR
 
+from .factories import MODEL_BACKEND
+
 pytestmark = pytest.mark.django_db
 
 
@@ -33,7 +35,8 @@ def test_health_check(client):
     assert response.json() == {"status": "ok"}
 
 
-def test_home_renders(client):
+def test_home_renders_for_logged_user(client, admin_user):
+    client.force_login(admin_user, backend=MODEL_BACKEND)
     response = client.get(reverse("core:home"))
     assert response.status_code == 200
     assert "H-SUS" in response.content.decode()

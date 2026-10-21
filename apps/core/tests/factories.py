@@ -1,6 +1,7 @@
 import random
 
 import factory
+from django.contrib.auth.models import Group
 
 from apps.core.models import Bed, Cbo, Establishment, Municipality, User, Ward
 
@@ -75,10 +76,20 @@ class BedFactory(factory.django.DjangoModelFactory):
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-        skip_postgeneration_save = True
 
     username = factory.Sequence(lambda n: f"usuario{n}")
     full_name = factory.Faker("name", locale="pt_BR")
     cpf = factory.LazyFunction(make_cpf)
     cns = factory.LazyFunction(make_cns)
-    password = factory.PostGenerationMethodCall("set_password", "senha-de-teste-123")
+    password = factory.django.Password("senha-de-teste-123")
+
+
+def user_with_roles(*roles, **kwargs) -> User:
+    user = UserFactory(**kwargs)
+    user.groups.set(Group.objects.filter(name__in=roles))
+    return user
+
+
+# O primeiro backend é o do django-axes, que não carrega usuários;
+# force_login precisa do ModelBackend.
+MODEL_BACKEND = "django.contrib.auth.backends.ModelBackend"
