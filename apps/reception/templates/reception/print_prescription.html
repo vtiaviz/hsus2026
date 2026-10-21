@@ -1,0 +1,19 @@
+{% extends "print_base.html" %}
+{% block title %}Receita · {{ patient.name }}{% endblock %}
+{% block document %}
+  <h2 class="h4 text-center mb-4">Receita</h2>
+  <p><strong>Paciente:</strong> {{ patient.name }} · <strong>CNS:</strong> {{ patient.cns|default:"—" }}</p>
+  <ol>
+    {% for item in medications %}
+      <li class="mb-2">
+        <strong>{{ item.medication }}</strong> {{ item.dosage }} · {{ item.form }} · via {{ item.route }}<br>
+        {{ item.posology }}
+      </li>
+    {% endfor %}
+  </ol>
+  <p class="mt-4">{{ care_session.establishment.municipality.name }}, {{ care_session.finished_at|date:"j \d\e F \d\e Y"|lower }}.</p>
+  <div class="signature">
+    {{ physician.full_name|default:physician.username }}<br>
+    <span class="small">{{ physician.council_registry }} · assinatura e carimbo</span>
+  </div>
+{% endblock %}

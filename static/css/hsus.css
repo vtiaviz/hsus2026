@@ -3,3 +3,12 @@
   min-width: 220px;
   min-height: calc(100vh - 56px);
 }
+
+.risk-low { background-color: #198754; }
+.risk-medium { background-color: #ffc107; color: #212529; }
+.risk-high { background-color: #fd7e14; }
+.risk-very_high { background-color: #dc3545; }
+
+@media print {
+  .no-print { display: none !important; }
+}

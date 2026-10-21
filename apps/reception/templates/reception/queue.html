@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h3">{{ title }}</h1>
+  {% if empty_message %}<p class="text-secondary">{{ empty_message }}</p>{% endif %}
+  {% if sessions %}
+    <table class="table table-hover align-middle">
+      <thead><tr><th>Chegada</th><th>Paciente</th><th>Idade</th><th>Relato</th><th>Risco</th><th></th></tr></thead>
+      <tbody>
+        {% for session in sessions %}
+          <tr>
+            <td>{{ session.arrived_at|date:"d/m H:i" }}</td>
+            <td>{{ session.patient.name }}</td>
+            <td>{{ session.patient.age }}</td>
+            <td>{{ session.complaint|truncatechars:60 }}</td>
+            <td>{% if session.triage %}<span class="badge risk-{{ session.triage.risk }}">{{ session.triage.get_risk_display }}</span>{% else %}—{% endif %}</td>
+            <td>{% if detail_url_name %}<a class="btn btn-sm btn-primary" href="{% url detail_url_name session.pk %}">Atender</a>{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-secondary">Nenhum paciente na fila.</p>
+  {% endif %}
+{% endblock %}

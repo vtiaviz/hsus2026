@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Alta · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h3">Alta registrada</h1>
+  {% include "reception/_patient_header.html" with patient=care_session.patient %}
+  <p>Saída em {{ care_session.finished_at|date:"d/m/Y H:i" }}. O atendimento agora é só leitura.</p>
+  <div class="d-flex gap-2">
+    {% if has_prescription %}<a class="btn btn-primary" target="_blank" href="{% url 'reception:print_prescription' care_session.pk %}">Imprimir receita</a>{% endif %}
+    {% if certificate %}<a class="btn btn-primary" target="_blank" href="{% url 'reception:print_certificate' care_session.pk %}">Imprimir atestado</a>{% endif %}
+    <a class="btn btn-link" href="{% url 'reception:consultation' %}">Voltar à fila</a>
+  </div>
+{% endblock %}

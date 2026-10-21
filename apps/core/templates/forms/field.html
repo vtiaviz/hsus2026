@@ -1,0 +1,6 @@
+{% load hsus %}{% if field.widget_type == "checkbox" %}<div class="form-check">{{ field|bootstrap }} {{ field.label_tag }}</div>{% elif field.widget_type == "radioselect" %}<div role="radiogroup" aria-labelledby="{{ field.auto_id }}_label">
+  <div class="form-label" id="{{ field.auto_id }}_label">{{ field.label }}</div>
+  <div class="d-flex flex-wrap gap-3">{% for radio in field %}<div class="form-check mb-0">{{ radio|check_input }}<label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label></div>{% endfor %}</div>
+</div>{% else %}{{ field.label_tag }}{{ field|bootstrap }}{% endif %}
+{% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+{% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}

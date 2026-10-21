@@ -3,7 +3,7 @@ import random
 import factory
 from django.contrib.auth.models import Group
 
-from apps.core.models import Bed, Cbo, Establishment, Municipality, User, Ward
+from apps.core.models import Bed, Cbo, Cid10, Establishment, Municipality, User, Ward
 
 
 def make_cpf() -> str:
@@ -93,3 +93,12 @@ def user_with_roles(*roles, **kwargs) -> User:
 # O primeiro backend é o do django-axes, que não carrega usuários;
 # force_login precisa do ModelBackend.
 MODEL_BACKEND = "django.contrib.auth.backends.ModelBackend"
+
+
+class Cid10Factory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Cid10
+        django_get_or_create = ["code"]
+
+    code = "J189"
+    description = "Pneumonia não especificada"

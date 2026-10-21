@@ -9,7 +9,7 @@
 </head>
 <body>
   {% if user.is_authenticated %}
-    <nav class="navbar navbar-dark bg-primary px-3">
+    <nav class="navbar no-print navbar-dark bg-primary px-3">
       <a class="navbar-brand" href="{% url 'core:home' %}">H-SUS</a>
       <div class="d-flex align-items-center gap-3 text-white">
         <span>{{ user }}</span>
@@ -20,7 +20,7 @@
       </div>
     </nav>
     <div class="d-flex">
-      <aside class="hsus-sidebar border-end p-3" aria-label="Menu">
+      <aside class="no-print hsus-sidebar border-end p-3" aria-label="Menu">
         {% for section in sidebar_sections %}
           <h2 class="h6 text-uppercase text-secondary mt-3">{{ section.label }}</h2>
           <ul class="nav flex-column">
@@ -35,6 +35,9 @@
         {% endif %}
       </aside>
       <main class="flex-grow-1 p-4">
+        {% for message in messages %}
+          <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+        {% endfor %}
         {% block content %}{% endblock %}
       </main>
     </div>
@@ -43,5 +46,6 @@
       {% block public_content %}{% endblock %}
     </main>
   {% endif %}
+  <script src="{% static 'js/hsus.js' %}"></script>
 </body>
 </html>

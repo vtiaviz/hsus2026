@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Entrada · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h3">Entrada</h1>
+  {% if open_session %}
+    <div class="alert alert-warning">
+      {{ patient.name }} já tem um atendimento aberto ({{ open_session.get_status_display }}).
+      <a href="{% url 'reception:session_detail' open_session.pk %}">Ver atendimento</a>
+    </div>
+  {% else %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for error in session_form.non_field_errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+    {% for error in patient_form.non_field_errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+    {% if patient_form.existing_patient %}
+      <div class="alert alert-info">
+        Este paciente já está cadastrado.
+        <a href="{% url 'reception:open_session' patient_form.existing_patient.pk %}">Abrir o cadastro de {{ patient_form.existing_patient.name }}</a>
+      </div>
+    {% endif %}
+
+    <section class="card mb-3"><div class="card-body">
+      <h2 class="h5">Informações do atendimento</h2>
+      <div class="row g-3">
+        <div class="col-md-2">{{ session_form.arrival_date.as_field_group }}</div>
+        <div class="col-md-2">{{ session_form.arrival_time.as_field_group }}</div>
+        <div class="col-md-8">{{ session_form.complaint.as_field_group }}</div>
+        <div class="col-md-4">{{ session_form.origin.as_field_group }}</div>
+      </div>
+    </div></section>
+
+    <section class="card mb-3"><div class="card-body">
+      <h2 class="h5">Informações do paciente</h2>
+      <div class="row g-3">
+        <div class="col-md-3">{{ patient_form.cns.as_field_group }}</div>
+        <div class="col-md-3">{{ patient_form.cpf.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.medical_record_number.as_field_group }}</div>
+        <div class="col-md-4">{{ patient_form.name.as_field_group }}</div>
+        <div class="col-md-4">{{ patient_form.mother_name.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.sex.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.race.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.birth_date.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.phone.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.street_type.as_field_group }}</div>
+        <div class="col-md-4">{{ patient_form.street.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.number.as_field_group }}</div>
+        <div class="col-md-4">{{ patient_form.complement.as_field_group }}</div>
+        <div class="col-md-3">{{ patient_form.neighborhood.as_field_group }}</div>
+        <div class="col-md-2">{{ patient_form.zipcode.as_field_group }}</div>
+        <div class="col-md-5">{{ patient_form.municipality.as_field_group }}</div>
+      </div>
+    </div></section>
+
+    <section class="card mb-3" data-show-if="session-origin=transfer"><div class="card-body">
+      <h2 class="h5">Informações sobre a transferência</h2>
+      <div class="mb-3">{{ session_form.transfer_destination.as_field_group }}</div>
+
+      <div data-show-if="session-transfer_destination=ambulatory|infirmary">
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">{{ transfer_form.physician.as_field_group }}</div>
+          <div class="col-md-2">{{ transfer_form.cid10.as_field_group }}</div>
+          <div class="col-md-6">{{ transfer_form.diagnosis.as_field_group }}</div>
+          <div class="col-12">{{ transfer_form.care_plan.as_field_group }}</div>
+        </div>
+        {% include "includes/formset.html" with formset=medication_formset title="Medicamentos prescritos" %}
+      </div>
+
+      <div data-show-if="session-transfer_destination=ambulatory|infirmary|diagnostic_exam">
+        {% include "includes/formset.html" with formset=exam_formset title="Exames" %}
+      </div>
+
+      <p class="text-secondary mb-0" data-show-if="session-transfer_destination=telemedicine">
+        Telemedicina: basta registrar. A data e a hora do atendimento contam como o atendimento por telemedicina.
+      </p>
+    </div></section>
+
+    <button type="submit" class="btn btn-primary" data-hide-if="session-origin=transfer&session-transfer_destination=telemedicine">Salvar e abrir atendimento</button>
+    <button type="submit" class="btn btn-primary d-none" data-show-if="session-origin=transfer&session-transfer_destination=telemedicine">Registrar</button>
+    <a class="btn btn-link" href="{% url 'reception:identification' %}">Cancelar</a>
+  </form>
+  {% endif %}
+{% endblock %}

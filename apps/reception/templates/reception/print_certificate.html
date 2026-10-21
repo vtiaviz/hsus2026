@@ -1,0 +1,16 @@
+{% extends "print_base.html" %}
+{% block title %}Atestado · {{ patient.name }}{% endblock %}
+{% block document %}
+  <h2 class="h4 text-center mb-4">Atestado</h2>
+  <p class="lh-lg">
+    Atesto, para os devidos fins, que {{ patient.name }}{% if patient.cns %}, CNS {{ patient.cns }}{% endif %},
+    foi atendido(a) nesta unidade em {{ care_session.arrived_at|date:"d/m/Y" }} e deve permanecer afastado(a)
+    de suas atividades por {{ certificate.days }} dia{{ certificate.days|pluralize }}, a partir desta data.
+    {% if certificate.cid10 %}CID-10: {{ certificate.cid10.formatted_code }}.{% endif %}
+  </p>
+  <p class="mt-4">{{ care_session.establishment.municipality.name }}, {{ certificate.issued_at|date:"j \d\e F \d\e Y"|lower }}.</p>
+  <div class="signature">
+    {{ certificate.physician.full_name|default:certificate.physician.username }}<br>
+    <span class="small">{{ certificate.physician.council_registry }} · assinatura e carimbo</span>
+  </div>
+{% endblock %}
