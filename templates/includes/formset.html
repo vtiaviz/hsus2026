@@ -1,6 +1,6 @@
 {% load hsus %}{# Uso: {% include "includes/formset.html" with formset=... title=... %} #}
-<fieldset class="mb-3">
-  {% if title %}<legend class="h6">{{ title }}</legend>{% endif %}
+<div class="mb-3">
+  {% if title %}<h3 class="h6">{{ title }}</h3>{% endif %}
   {{ formset.management_form }}
   {% for error in formset.non_form_errors %}<div class="alert alert-danger py-1">{{ error }}</div>{% endfor %}
   <div class="table-responsive">
@@ -23,4 +23,4 @@
     <tr>{% for field in formset.empty_form.visible_fields %}<td>{{ field|bootstrap }}</td>{% endfor %}</tr>
   </template>
   <button type="button" class="btn btn-sm btn-outline-secondary" data-formset-add="{{ formset.prefix }}">Adicionar linha</button>
-</fieldset>
+</div>

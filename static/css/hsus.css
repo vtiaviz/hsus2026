@@ -4,18 +4,6 @@
   min-height: calc(100vh - 56px);
 }
 
-.hsus-radios > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.25rem;
-}
-
-.hsus-radios label {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
 .risk-low { background-color: #198754; }
 .risk-medium { background-color: #ffc107; color: #212529; }
 .risk-high { background-color: #fd7e14; }

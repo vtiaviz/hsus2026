@@ -11,7 +11,7 @@
         <dt class="col-sm-2">Temperatura</dt><dd class="col-sm-2">{{ triage.temperature }} °C</dd>
         <dt class="col-sm-2">FC</dt><dd class="col-sm-2">{{ triage.heart_rate }} bpm</dd>
         <dt class="col-sm-2">SpO2</dt><dd class="col-sm-2">{{ triage.oxygen_saturation }}%</dd>
-        <dt class="col-sm-2">Alergias</dt><dd class="col-sm-10">{% if triage.has_allergy %}{{ triage.allergy_description }}{% else %}Nega{% endif %}</dd>
+        <dt class="col-sm-2">Alergias</dt><dd class="col-sm-6">{% if triage.has_allergy %}{{ triage.allergy_description }}{% else %}Nega{% endif %}</dd>
       </dl>
     </div></section>
   {% endif %}

@@ -463,3 +463,12 @@ class TestConsultationViews:
         )
         assert response.status_code == 302
         assert not Consultation.objects.exists()
+
+
+def test_radio_groups_render_as_bootstrap_checks_without_blank_option(client):
+    login(client, Role.NURSE)
+    care_session = CareSessionFactory()
+    html = client.get(reverse("reception:triage_form", args=[care_session.pk])).content.decode()
+    assert 'name="risk" value="low" id="id_risk_0" required class="form-check-input"' in html
+    assert 'name="risk" value=""' not in html
+    assert "<legend" not in html
