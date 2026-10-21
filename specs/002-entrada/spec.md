@@ -1,6 +1,6 @@
 # Feature Specification: Entrada (M2)
 
-**Feature Branch**: `002-entrada` · **Created**: 2026-10-21 · **Status**: Em implementação
+**Feature Branch**: `002-entrada` · **Created**: 2026-10-21 · **Status**: Implementada
 
 ## Contexto
 A Entrada é por onde todo paciente chega ao hospital. O atendente identifica o paciente e abre o
@@ -158,6 +158,8 @@ Decisões tomadas para não travar a spec, a confirmar com o Victor:
 - Na transferência para Ambulatório ou Enfermaria, o atendente transcreve da guia o médico
   responsável, o diagnóstico (CID-10), o plano, a prescrição e os exames, como no template de
   identificação.
+- Telas sempre em português, mesmo em navegador em inglês (sai o `LocaleMiddleware`; antes a data
+  da receita saía como "October").
 - Tipo de logradouro como texto (Rua, Avenida, Travessa...). O código DNE que o SISAIH01 pede fica
   para o M6.
 

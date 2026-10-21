@@ -37,3 +37,15 @@ uv run python manage.py makemigrations --check --dry-run   # migrações em dia
   linha em `SPEC_MATRIX` de `test_permissions.py` (o teste perfil × ação cobre a URL sozinho).
 - Em testes, use `client.force_login(user, backend=MODEL_BACKEND)` e `user_with_roles(...)` das
   factories (o primeiro backend é o do django-axes).
+
+## Atendimento (spec 002)
+- O status de `CareSession` só muda em `apps/reception/services.py` (`TRANSITIONS`,
+  `apply_transition`, `ensure_status`). Etapa nova = evento novo na tabela + teste da transição
+  e das recusadas.
+- Services recebem instâncias ainda não salvas vindas dos forms (`form.save(commit=False)`,
+  `unsaved_items(formset)`) e gravam tudo numa transação.
+- Telas que abrem dados do paciente chamam `apps.patients.services.log_access`.
+- Formulários: `{{ form.campo.as_field_group }}` já sai no padrão do Bootstrap
+  (`BootstrapFormRenderer`); formsets com `includes/formset.html`.
+- Factories de paciente e atendimento: `apps/patients/tests/factories.py` e
+  `apps/reception/tests/factories.py`.

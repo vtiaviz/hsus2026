@@ -1,0 +1,14 @@
+<section class="card mb-3">
+  <div class="card-body">
+    <h2 class="h5 mb-2">{{ patient.name }}</h2>
+    <dl class="row mb-0 small">
+      <dt class="col-sm-2">Sexo</dt><dd class="col-sm-2">{{ patient.get_sex_display }}</dd>
+      <dt class="col-sm-2">Idade</dt><dd class="col-sm-2">{{ patient.age }} anos</dd>
+      <dt class="col-sm-2">Raça/cor</dt><dd class="col-sm-2">{{ patient.get_race_display }}</dd>
+      <dt class="col-sm-2">CNS</dt><dd class="col-sm-2">{{ patient.cns|default:"—" }}</dd>
+      <dt class="col-sm-2">Prontuário</dt><dd class="col-sm-2">{{ patient.medical_record_number }}</dd>
+      <dt class="col-sm-2">Chegada</dt><dd class="col-sm-2">{{ care_session.arrived_at|date:"d/m/Y H:i" }}</dd>
+      <dt class="col-sm-2">Relato</dt><dd class="col-sm-10">{{ care_session.complaint }}</dd>
+    </dl>
+  </div>
+</section>

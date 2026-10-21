@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Triagem · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h3">Triagem</h1>
+  {% include "reception/_patient_header.html" %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for error in form.non_field_errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+    <section class="card mb-3"><div class="card-body">
+      <h2 class="h5">Sinais vitais</h2>
+      <div class="row g-3">
+        <div class="col-md-2">{{ form.systolic.as_field_group }}</div>
+        <div class="col-md-2">{{ form.diastolic.as_field_group }}</div>
+        <div class="col-md-2">{{ form.temperature.as_field_group }}</div>
+        <div class="col-md-3">{{ form.heart_rate.as_field_group }}</div>
+        <div class="col-md-3">{{ form.oxygen_saturation.as_field_group }}</div>
+      </div>
+    </div></section>
+    <section class="card mb-3"><div class="card-body">
+      <h2 class="h5">Alergias</h2>
+      {{ form.has_allergy.as_field_group }}
+      <div class="mt-2">{{ form.allergy_description.as_field_group }}</div>
+    </div></section>
+    <section class="card mb-3"><div class="card-body">
+      <h2 class="h5">Classificação de risco</h2>
+      {{ form.risk.as_field_group }}
+    </div></section>
+    <button type="submit" class="btn btn-primary">Salvar triagem</button>
+    <a class="btn btn-link" href="{% url 'reception:triage' %}">Voltar à fila</a>
+  </form>
+{% endblock %}

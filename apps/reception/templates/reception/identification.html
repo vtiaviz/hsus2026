@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Identificação · H-SUS{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Identificação</h1>
+    <a class="btn btn-primary" href="{% url 'reception:open_session_new' %}">Novo paciente</a>
+  </div>
+  <form method="get" class="row g-2 align-items-end mb-4">
+    <div class="col-md-5">{{ form.q.as_field_group }}</div>
+    <div class="col-md-5">{{ form.mother.as_field_group }}</div>
+    <div class="col-md-2"><button type="submit" class="btn btn-outline-primary w-100">Pesquisar</button></div>
+  </form>
+  {% if results is not None %}
+    {% if results %}
+      <table class="table table-hover">
+        <thead><tr><th>Nome</th><th>Mãe</th><th>Nascimento</th><th>CNS</th><th>CPF</th><th></th></tr></thead>
+        <tbody>
+          {% for patient in results %}
+            <tr>
+              <td>{{ patient.name }}</td>
+              <td>{{ patient.mother_name }}</td>
+              <td>{{ patient.birth_date|date:"d/m/Y" }}</td>
+              <td>{{ patient.cns|default:"—" }}</td>
+              <td>{{ patient.cpf|default:"—" }}</td>
+              <td><a class="btn btn-sm btn-primary" href="{% url 'reception:open_session' patient.pk %}">Abrir atendimento</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="text-secondary">Nenhum paciente encontrado. Confira os dados ou cadastre um novo paciente.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

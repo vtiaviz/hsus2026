@@ -34,6 +34,17 @@ admin, em Usuários → Grupos. A matriz de permissões está em
 erradas o usuário fica bloqueado por 15 minutos; para desbloquear antes, apague a tentativa em
 Axes → Access attempts no admin.
 
+## Entrada (spec 002)
+
+Antes do primeiro atendimento, no admin: cadastre o estabelecimento e vincule-o aos usuários,
+cadastre os medicamentos em Clínico → Medicamentos e importe a tabela CID-10 (abaixo). Os sete
+exames do template já vêm cadastrados. Para mostrar o link do LabSUS nos pedidos de exame, defina
+`LABSUS_URL` no `.env`.
+
+Fluxo: Identificação (atendente) → Triagem (técnico ou enfermeiro) → Consulta (médico), que
+encaminha para Ambulatório, Enfermaria ou Alta. Na alta, a receita e o atestado abrem prontos para
+imprimir. Paciente transferido vai direto para o destino escolhido na identificação.
+
 ## Tabelas oficiais
 
 ```bash
@@ -52,7 +63,7 @@ Formatos e fontes em [`data/README.md`](data/README.md).
 | --- | --- | --- |
 | M0 | Fundação | Implementada |
 | M1 | Autenticação e perfis | Implementada |
-| M2 | Entrada (identificação, triagem, consulta) | — |
+| M2 | Entrada (identificação, triagem, consulta) | Implementada |
 | M3 | Ambulatório | — |
 | M4 | Admissão na enfermaria | — |
 | M5 | Evoluções médica e de enfermagem | — |

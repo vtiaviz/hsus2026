@@ -1,0 +1,3 @@
+{% load hsus %}{% if field.widget_type == "checkbox" %}<div class="form-check">{{ field|bootstrap }} {{ field.label_tag }}</div>{% elif field.widget_type == "radioselect" %}<fieldset><legend class="form-label fs-6 mb-1">{{ field.label }}</legend><div class="hsus-radios">{{ field|bootstrap }}</div></fieldset>{% else %}{{ field.label_tag }}{{ field|bootstrap }}{% endif %}
+{% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+{% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}

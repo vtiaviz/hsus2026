@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Atendimento #{{ care_session.pk }} · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h3">Atendimento #{{ care_session.pk }}</h1>
+  {% include "reception/_patient_header.html" with patient=care_session.patient %}
+  <p>
+    <strong>Origem:</strong> {{ care_session.get_origin_display }}
+    {% if care_session.transfer_destination %}({{ care_session.get_transfer_destination_display }}){% endif %}
+    · <strong>Status:</strong> {{ care_session.get_status_display }}
+  </p>
+  {% with exams=care_session.exam_requests.all %}
+    {% if exams %}
+      <h2 class="h5">Exames</h2>
+      <ul>{% for exam in exams %}<li>{{ exam.exam_type }}{% if exam.external_id %} · LabSUS {{ exam.external_id }}{% endif %}</li>{% endfor %}</ul>
+      {% if labsus_url %}<a class="btn btn-outline-primary mb-3" href="{{ labsus_url }}" target="_blank" rel="noopener">Abrir o LabSUS</a>{% endif %}
+    {% endif %}
+  {% endwith %}
+  {% with records=care_session.telemedicine_records.all %}
+    {% if records %}
+      <h2 class="h5">Telemedicina</h2>
+      <ul>{% for record in records %}<li>{{ record.date|date:"d/m/Y" }}: {{ record.quantity }}</li>{% endfor %}</ul>
+    {% endif %}
+  {% endwith %}
+  <a class="btn btn-primary" href="{% url 'reception:identification' %}">Nova identificação</a>
+{% endblock %}

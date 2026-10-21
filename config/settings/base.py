@@ -19,8 +19,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "axes",
     "apps.core",
+    "apps.patients",
+    "apps.clinical",
     "apps.reception",
     "apps.ambulatory",
     "apps.infirmary",
@@ -30,7 +33,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -96,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# Interface só em português: sem LocaleMiddleware, o idioma do navegador não muda as telas.
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Belem"
 USE_I18N = True
@@ -109,3 +112,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SESSION_COOKIE_AGE = 30 * 60
 SESSION_SAVE_EVERY_REQUEST = True
+FORM_RENDERER = "apps.core.forms.BootstrapFormRenderer"
+
+# Link do LabSUS mostrado nos pedidos de exame (spec 002). Vazio esconde o link.
+LABSUS_URL = env("LABSUS_URL", default="")

@@ -22,6 +22,7 @@ services:
       SECRET_KEY: dev-only-secret-key
       DATABASE_URL: postgres://hsus:hsus@db:5432/hsus
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
+      LABSUS_URL: ${LABSUS_URL:-}
     volumes:
       - .:/app
     ports:
