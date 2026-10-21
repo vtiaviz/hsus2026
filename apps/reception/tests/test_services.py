@@ -13,7 +13,7 @@ from apps.core.tests.factories import (
 )
 from apps.patients.tests.factories import PatientFactory
 from apps.reception import selectors, services
-from apps.reception.models import CareSession, Consultation, TelemedicineRecord, Triage
+from apps.reception.models import CareSession, Consultation, Triage
 
 from .factories import CareSessionFactory, MedicationFactory, TriageFactory
 
@@ -159,27 +159,13 @@ class TestTransfer:
                 destination=Destination.DIAGNOSTIC_EXAM,
             )
 
-    def test_telemedicine_records_dates_and_quantities(self, attendant):
-        records = [
-            TelemedicineRecord(date=datetime.date(2026, 10, 1), quantity=2),
-            TelemedicineRecord(date=datetime.date(2026, 10, 8), quantity=1),
-        ]
+    def test_telemedicine_only_registers_and_finishes(self, attendant):
         care_session = open_session(
-            attendant,
-            origin=CareSession.Origin.TRANSFER,
-            destination=Destination.TELEMEDICINE,
-            transfer=services.TransferData(telemedicine=records),
+            attendant, origin=CareSession.Origin.TRANSFER, destination=Destination.TELEMEDICINE
         )
         assert care_session.status == Status.FINISHED
-        assert [r.quantity for r in care_session.telemedicine_records.all()] == [2, 1]
-
-    def test_telemedicine_needs_a_record(self, attendant):
-        with pytest.raises(services.CareSessionError, match="telemedicina"):
-            open_session(
-                attendant,
-                origin=CareSession.Origin.TRANSFER,
-                destination=Destination.TELEMEDICINE,
-            )
+        assert care_session.finished_at is not None
+        assert care_session.transfer_destination == Destination.TELEMEDICINE
 
     def test_transfer_session_refuses_triage(self, attendant, physician):
         care_session = open_session(

@@ -169,29 +169,3 @@ class Consultation(models.Model):
 
     def __str__(self):
         return f"Consulta {self.care_session}"
-
-
-class TelemedicineRecord(models.Model):
-    care_session = models.ForeignKey(
-        CareSession,
-        on_delete=models.PROTECT,
-        related_name="telemedicine_records",
-        verbose_name=_("atendimento"),
-    )
-    date = models.DateField(_("data"))
-    quantity = models.PositiveSmallIntegerField(_("quantidade"), validators=[MinValueValidator(1)])
-    recorded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name="+",
-        verbose_name=_("registrado por"),
-    )
-    recorded_at = models.DateTimeField(_("registrado em"), auto_now_add=True)
-
-    class Meta:
-        verbose_name = _("registro de telemedicina")
-        verbose_name_plural = _("registros de telemedicina")
-        ordering = ["date"]
-
-    def __str__(self):
-        return f"{self.date:%d/%m/%Y}: {self.quantity}"

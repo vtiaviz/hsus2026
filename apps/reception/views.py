@@ -18,7 +18,6 @@ from . import selectors, services
 from .forms import (
     CareSessionForm,
     ConsultationForm,
-    TelemedicineFormSet,
     TransferForm,
     TriageForm,
 )
@@ -60,7 +59,6 @@ class OpenCareSessionView(ActionRequiredMixin, View):
             "transfer_form": TransferForm(data, prefix="transfer", user=self.request.user),
             "medication_formset": MedicationFormSet(data, prefix="medications"),
             "exam_formset": ExamRequestFormSet(data, prefix="exams"),
-            "telemedicine_formset": TelemedicineFormSet(data, prefix="telemedicine"),
         }
 
     def render(self, forms, status=200):
@@ -112,9 +110,6 @@ class OpenCareSessionView(ActionRequiredMixin, View):
             medications=unsaved_items(forms["medication_formset"]) if with_guide else [],
             exams=unsaved_items(forms["exam_formset"])
             if with_guide or destination == Destination.DIAGNOSTIC_EXAM
-            else [],
-            telemedicine=unsaved_items(forms["telemedicine_formset"])
-            if destination == Destination.TELEMEDICINE
             else [],
         )
 

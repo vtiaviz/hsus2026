@@ -69,12 +69,13 @@
         {% include "includes/formset.html" with formset=exam_formset title="Exames" %}
       </div>
 
-      <div data-show-if="session-transfer_destination=telemedicine">
-        {% include "includes/formset.html" with formset=telemedicine_formset title="Telemedicina: datas e quantidades" %}
-      </div>
+      <p class="text-secondary mb-0" data-show-if="session-transfer_destination=telemedicine">
+        Telemedicina: basta registrar. A data e a hora do atendimento contam como o atendimento por telemedicina.
+      </p>
     </div></section>
 
-    <button type="submit" class="btn btn-primary">Salvar e abrir atendimento</button>
+    <button type="submit" class="btn btn-primary" data-hide-if="session-origin=transfer&session-transfer_destination=telemedicine">Salvar e abrir atendimento</button>
+    <button type="submit" class="btn btn-primary d-none" data-show-if="session-origin=transfer&session-transfer_destination=telemedicine">Registrar</button>
     <a class="btn btn-link" href="{% url 'reception:identification' %}">Cancelar</a>
   </form>
   {% endif %}

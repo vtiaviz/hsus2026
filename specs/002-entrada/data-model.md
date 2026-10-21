@@ -7,7 +7,6 @@
 | `CareSession` | reception | `origin` (new, transfer), `transfer_destination` (ambulatory, infirmary, diagnostic_exam, telemedicine), `status`, `arrived_at`, `complaint`, `finished_at` | `Patient`, `Establishment`, `created_by`; um aberto por paciente |
 | `Triage` | reception | `systolic`, `diastolic`, `temperature`, `heart_rate`, `oxygen_saturation`, `has_allergy`, `allergy_description`, `risk` (low, medium, high, very_high), `recorded_at` | 1:1 `CareSession`, `recorded_by` |
 | `Consultation` | reception | `kind` (entry, transfer), `diagnosis`, `care_plan`, `referral` (ambulatory, infirmary, discharge), `recorded_at` | 1:1 `CareSession`, `physician`, `Cid10`, `recorded_by` |
-| `TelemedicineRecord` | reception | `date`, `quantity` | `CareSession`, `recorded_by` |
 | `Medication` | clinical | `name` (único), `is_active` | catálogo do admin |
 | `ExamType` | clinical | `name` (único), `is_active` | catálogo; sete tipos por migração |
 | `PrescribedMedication` | clinical | `dosage`, `form`, `route`, `times`, `interval_hours` (6, 8, 12, 24), `duration`, `duration_unit` (day, week, month); `posology` | `CareSession`, `Consultation`, `Medication` |

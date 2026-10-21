@@ -12,7 +12,7 @@ from apps.clinical.models import ExamRequest, MedicalCertificate, PrescribedMedi
 from apps.core.models import Cid10, Establishment
 from apps.patients.models import Patient
 
-from .models import CareSession, Consultation, TelemedicineRecord, Triage
+from .models import CareSession, Consultation, Triage
 
 Status = CareSession.Status
 Destination = CareSession.Destination
@@ -49,7 +49,6 @@ class TransferData:
     care_plan: str = ""
     medications: list[PrescribedMedication] = field(default_factory=list)
     exams: list[ExamRequest] = field(default_factory=list)
-    telemedicine: list[TelemedicineRecord] = field(default_factory=list)
 
 
 def default_establishment(user) -> Establishment:
@@ -164,8 +163,6 @@ def _validate_transfer(destination: str, transfer: TransferData) -> None:
             )
     elif destination == Destination.DIAGNOSTIC_EXAM and not transfer.exams:
         raise CareSessionError(_("Informe pelo menos um exame."))
-    elif destination == Destination.TELEMEDICINE and not transfer.telemedicine:
-        raise CareSessionError(_("Informe pelo menos uma data e quantidade de telemedicina."))
 
 
 def _save_transfer(care_session, destination, transfer: TransferData, user) -> None:
@@ -183,10 +180,6 @@ def _save_transfer(care_session, destination, transfer: TransferData, user) -> N
         )
         _save_medications(care_session, consultation, transfer.medications)
     _save_exams(care_session, consultation, transfer.exams, user)
-    for record in transfer.telemedicine:
-        record.care_session = care_session
-        record.recorded_by = user
-        record.save()
 
 
 @transaction.atomic

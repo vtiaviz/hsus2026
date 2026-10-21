@@ -15,11 +15,5 @@
       {% if labsus_url %}<a class="btn btn-outline-primary mb-3" href="{{ labsus_url }}" target="_blank" rel="noopener">Abrir o LabSUS</a>{% endif %}
     {% endif %}
   {% endwith %}
-  {% with records=care_session.telemedicine_records.all %}
-    {% if records %}
-      <h2 class="h5">Telemedicina</h2>
-      <ul>{% for record in records %}<li>{{ record.date|date:"d/m/Y" }}: {{ record.quantity }}</li>{% endfor %}</ul>
-    {% endif %}
-  {% endwith %}
   <a class="btn btn-primary" href="{% url 'reception:identification' %}">Nova identificação</a>
 {% endblock %}

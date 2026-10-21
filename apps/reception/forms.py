@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.core.forms import Cid10Field
 
-from .models import CareSession, Consultation, TelemedicineRecord, Triage
+from .models import CareSession, Consultation, Triage
 from .selectors import physicians
 
 
@@ -88,16 +88,6 @@ class TransferForm(PhysicianChoiceMixin, forms.ModelForm):
     def _post_clean(self):
         # Os campos só são obrigatórios em alguns destinos; o service confere.
         pass
-
-
-class TelemedicineForm(forms.ModelForm):
-    class Meta:
-        model = TelemedicineRecord
-        fields = ["date", "quantity"]
-        widgets = {"date": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")}
-
-
-TelemedicineFormSet = forms.formset_factory(TelemedicineForm, extra=1)
 
 
 class TriageForm(forms.ModelForm):

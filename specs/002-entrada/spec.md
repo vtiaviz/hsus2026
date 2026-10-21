@@ -94,8 +94,10 @@ Como atendente, quero registrar a chegada de um paciente transferido e mandá-lo
 3. **Dado** destino "Exame de apoio diagnóstico", **quando** o atendente salva com os exames
    pedidos, **então** os pedidos ficam registrados com campo para o identificador do LabSUS, a tela
    mostra o link do LabSUS e o atendimento é finalizado.
-4. **Dado** destino "Telemedicina", **quando** o atendente salva com as datas e quantidades,
-   **então** elas ficam registradas e o atendimento é finalizado.
+4. **Dado** destino "Telemedicina", **quando** o atendente clica em "Registrar", **então** o
+   paciente e o atendimento ficam gravados e o atendimento é finalizado. Não há outros campos: a
+   data e a hora do atendimento identificam quem foi atendido por telemedicina, e as quantidades
+   saem da contagem desses atendimentos.
 5. **Dado** um atendimento de transferência, **quando** alguém tenta registrar triagem ou consulta
    nele, **então** o sistema recusa.
 
@@ -153,6 +155,8 @@ Decisões tomadas para não travar a spec, a confirmar com o Victor:
 - Paciente precisa de CNS ou CPF. Paciente sem documento nenhum fica fora desta spec.
 - Receita e atestado abrem numa página pronta para impressão (o navegador salva em PDF). O PDF
   gerado no servidor, com WeasyPrint, entra no M6 junto com os outros documentos.
+- Telemedicina só registra paciente e atendimento, com o botão "Registrar" (Victor, 21/10). A
+  tabela de datas e quantidades saiu; as quantidades saem da contagem dos atendimentos.
 - Transferência para Exame ou Telemedicina finaliza o atendimento no próprio registro, porque não
   há etapa seguinte dentro do hospital.
 - Na transferência para Ambulatório ou Enfermaria, o atendente transcreve da guia o médico

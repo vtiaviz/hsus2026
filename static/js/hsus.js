@@ -11,12 +11,22 @@ document.addEventListener("click", (event) => {
   total.value = Number(total.value) + 1;
 });
 
-function updateConditionalSections() {
-  document.querySelectorAll("[data-show-if]").forEach((section) => {
-    const [name, values] = section.dataset.showIf.split("=");
+// data-show-if="nome=valor1|valor2&outro=valor": mostra quando todas as condições batem.
+// data-hide-if: o contrário.
+function conditionsMatch(expression) {
+  return expression.split("&").every((condition) => {
+    const [name, values] = condition.split("=");
     const checked = document.querySelector(`input[name="${name}"]:checked`);
-    const visible = checked && values.split("|").includes(checked.value);
-    section.classList.toggle("d-none", !visible);
+    return checked && values.split("|").includes(checked.value);
+  });
+}
+
+function updateConditionalSections() {
+  document.querySelectorAll("[data-show-if]").forEach((element) => {
+    element.classList.toggle("d-none", !conditionsMatch(element.dataset.showIf));
+  });
+  document.querySelectorAll("[data-hide-if]").forEach((element) => {
+    element.classList.toggle("d-none", conditionsMatch(element.dataset.hideIf));
   });
 }
 

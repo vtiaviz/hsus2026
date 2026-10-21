@@ -63,7 +63,6 @@ def open_session_data(**overrides):
         "patient-municipality": MunicipalityFactory().pk,
         **management("medications"),
         **management("exams"),
-        **management("telemedicine"),
     }
     return data | overrides
 
@@ -227,19 +226,16 @@ class TestTransferViews:
         assert "https://labsus.example.org" in detail.content.decode()
         assert CareSession.objects.get().status == Status.FINISHED
 
-    def test_telemedicine(self, client):
+    def test_telemedicine_registers_patient_and_session(self, client):
         login(client, Role.ATTENDANT)
-        response = self.post(
-            client,
-            "telemedicine",
-            **{
-                **management("telemedicine", 1),
-                "telemedicine-0-date": "2026-10-01",
-                "telemedicine-0-quantity": "3",
-            },
-        )
+        page = client.get(reverse("reception:open_session_new")).content.decode()
+        assert ">Registrar</button>" in page
+        response = self.post(client, "telemedicine")
         assert response.status_code == 302
-        assert CareSession.objects.get().telemedicine_records.get().quantity == 3
+        care_session = CareSession.objects.get()
+        assert care_session.status == Status.FINISHED
+        assert care_session.transfer_destination == "telemedicine"
+        assert Patient.objects.count() == 1
 
 
 class TestTriageViews:
