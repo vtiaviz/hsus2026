@@ -1,0 +1,41 @@
+[project]
+name = "hsus"
+version = "0.1.0"
+description = "Gestão de atendimentos para hospitais de pequeno porte do SUS"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.2,<5.3",
+    "psycopg[binary]>=3.2",
+    "django-environ>=0.11",
+    "gunicorn>=23",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-django>=4.9",
+    "factory-boy>=3.3",
+    "coverage>=7.6",
+    "ruff>=0.7",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["test_*.py"]
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+source = ["apps"]
+omit = ["*/migrations/*", "*/tests/*"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "DJ", "SIM"]
