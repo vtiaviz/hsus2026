@@ -13,6 +13,9 @@ cp .env.example .env
 docker compose up            # http://localhost:8000/health/
 ```
 
+Para acessar por outro endereço (por exemplo, o IP de uma VM), adicione-o em `ALLOWED_HOSTS` no
+`.env`, separado por vírgulas: `ALLOWED_HOSTS=localhost,127.0.0.1,192.168.56.20`.
+
 Sem Docker para a aplicação (só o banco):
 
 ```bash
