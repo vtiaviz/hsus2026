@@ -26,6 +26,14 @@ uv run python manage.py createsuperuser
 uv run python manage.py runserver
 ```
 
+## Perfis
+
+Cinco perfis (grupos): `admin`, `attendant`, `nursing_technician`, `nurse`, `physician`. Atribua no
+admin, em Usuários → Grupos. A matriz de permissões está em
+[`specs/001-autenticacao-perfis/spec.md`](specs/001-autenticacao-perfis/spec.md). Depois de 5 senhas
+erradas o usuário fica bloqueado por 15 minutos; para desbloquear antes, apague a tentativa em
+Axes → Access attempts no admin.
+
 ## Tabelas oficiais
 
 ```bash
@@ -43,7 +51,7 @@ Formatos e fontes em [`data/README.md`](data/README.md).
 | # | Spec | Situação |
 | --- | --- | --- |
 | M0 | Fundação | Implementada |
-| M1 | Autenticação e perfis | — |
+| M1 | Autenticação e perfis | Implementada |
 | M2 | Entrada (identificação, triagem, consulta) | — |
 | M3 | Ambulatório | — |
 | M4 | Admissão na enfermaria | — |

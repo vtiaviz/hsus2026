@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Página não encontrada · H-SUS{% endblock %}
+{% block content %}
+  <h1 class="h4">Página não encontrada</h1>
+  <p>O endereço não existe ou foi removido.</p>
+  <a href="{% url 'core:home' %}">Voltar ao início</a>
+{% endblock %}
+{% block public_content %}
+  <h1 class="h4">Página não encontrada</h1>
+  <p>O endereço não existe ou foi removido.</p>
+{% endblock %}

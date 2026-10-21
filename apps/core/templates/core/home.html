@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1 class="h3">H-SUS</h1>
-  <p class="text-secondary">Gestão de atendimentos hospitalares. Fundação (M0) instalada.</p>
+  <h1 class="h3">Olá, {{ user }}</h1>
+  {% if user.role_labels %}
+    <p class="text-secondary">Perfil: {{ user.role_labels|join:", " }}</p>
+  {% elif not user.is_superuser %}
+    <div class="alert alert-warning">Seu usuário ainda não tem perfil; procure o administrador.</div>
+  {% endif %}
 {% endblock %}

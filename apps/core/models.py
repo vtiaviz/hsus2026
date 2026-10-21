@@ -1,5 +1,6 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
 
 from .validators import validate_cns, validate_cpf, validate_digits
@@ -177,6 +178,11 @@ class Bed(TimeStampedModel):
 # Usuário
 
 
+class CaseInsensitiveUserManager(UserManager):
+    def get_by_natural_key(self, username):
+        return self.get(**{f"{self.model.USERNAME_FIELD}__iexact": username})
+
+
 class User(AbstractUser):
     full_name = models.CharField(_("nome completo"), max_length=150, blank=True)
     cpf = models.CharField(
@@ -200,9 +206,20 @@ class User(AbstractUser):
         verbose_name=_("estabelecimento"),
     )
 
+    objects = CaseInsensitiveUserManager()
+
     class Meta:
         verbose_name = _("usuário")
         verbose_name_plural = _("usuários")
+        constraints = [
+            models.UniqueConstraint(Lower("username"), name="unique_username_case_insensitive")
+        ]
 
     def __str__(self):
         return self.full_name or self.username
+
+    @property
+    def role_labels(self) -> list[str]:
+        from .permissions import Role, user_roles
+
+        return [Role(role).label for role in sorted(user_roles(self))]

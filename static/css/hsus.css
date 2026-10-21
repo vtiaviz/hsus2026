@@ -1,1 +1,5 @@
 /* Estilos próprios do H-SUS. Bootstrap 5 vem do CDN em base.html. */
+.hsus-sidebar {
+  min-width: 220px;
+  min-height: calc(100vh - 56px);
+}

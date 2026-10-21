@@ -1,6 +1,6 @@
 # Feature Specification: Autenticação e perfis (M1)
 
-**Feature Branch**: `001-autenticacao-perfis` · **Created**: 2026-10-21 · **Status**: Em revisão
+**Feature Branch**: `001-autenticacao-perfis` · **Created**: 2026-10-21 · **Status**: Implementada
 
 ## Contexto
 O H-SUS é usado por cinco perfis: administrador, atendente, técnico de enfermagem, enfermeiro e
@@ -62,7 +62,7 @@ sua função.
 | Entrada: consulta | sim | não | não | não | sim |
 | Ambulatório: procedimentos | sim | não | sim | sim | sim |
 | Enfermaria: admissão | sim | não | não | sim | não |
-| Enfermaria: evolução de enfermagem | sim | não | sim | sim [NEEDS CLARIFICATION] | não |
+| Enfermaria: evolução de enfermagem | sim | não | sim | sim | não |
 | Enfermaria: evolução médica e alta | sim | não | não | não | sim |
 | Finalizados: ver e imprimir | sim | sim | não | não | sim |
 | Painel de administração | sim | não | não | não | não |
@@ -85,8 +85,10 @@ sua função.
 - **FR-006**: O admin do Django mostra e permite trocar o perfil no cadastro do usuário.
 
 ## Clarifications
-- [NEEDS CLARIFICATION] O enfermeiro também registra evolução de enfermagem, ou só o técnico?
-  (O rascunho libera para os dois.)
+### Session 2026-10-21
+- P: O enfermeiro também registra evolução de enfermagem? → R: Sim, técnico e enfermeiro (Victor).
+- O bloqueio é só por nome de usuário, como pede a US2. Por IP não faz sentido aqui: todos os
+  computadores do hospital saem pelo mesmo IP, e um erro bloquearia o hospital inteiro.
 
 ## Fora de escopo
 Troca de senha pelo próprio usuário e recuperação por e-mail (a senha é redefinida pelo admin),
