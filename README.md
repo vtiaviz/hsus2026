@@ -30,7 +30,7 @@ uv run python manage.py runserver
 
 ```bash
 uv run python manage.py import_discharge_reasons data/motivos_saida_sih.csv
-uv run python manage.py import_municipalities municipios.csv
+uv run python manage.py import_municipalities data/municipios_ibge.csv
 uv run python manage.py import_cid10 CID-10-SUBCATEGORIAS.CSV
 uv run python manage.py import_sigtap TabelaUnificada_AAAAMM/tb_procedimento.txt
 uv run python manage.py import_cbo "CBO2002 - Ocupacao.csv"

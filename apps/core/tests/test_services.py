@@ -105,3 +105,9 @@ def test_import_discharge_reasons_from_repository_file():
 def test_import_discharge_reasons_rejects_unknown_kind(tmp_path):
     with pytest.raises(ImportFormatError):
         import_discharge_reasons(write(tmp_path, "d.csv", "codigo;descricao;tipo\n12;Alta;foo\n"))
+
+
+def test_import_municipalities_from_repository_file():
+    result = import_municipalities(BASE_DIR / "data" / "municipios_ibge.csv")
+    assert result.total == Municipality.objects.count() == 5571
+    assert Municipality.objects.get(ibge_code="1501758").name == "Brejo Grande do Araguaia"
